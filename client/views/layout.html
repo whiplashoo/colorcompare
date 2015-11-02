@@ -1,0 +1,18 @@
+<template name="layout">
+	<div class="container">
+		{{> header}}
+		<div id="main" class="col-md-12">
+			<div id = "target" class="col-md-4" style="background-color: {{randomColor}}">
+			</div>
+			<div class="col-md-4">
+				<h2> The box on the left is your target. Hover over the box on the right until it has the same color as the target. When ready, click and see how you did. </h2>
+			</div>
+			<div id ="player" class="col-md-4">
+			</div>
+			
+		</div>
+		{{> middle}}
+		{{> modal}}
+		{{> yield}}
+	</div>
+</template>
