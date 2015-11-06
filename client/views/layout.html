@@ -1,11 +1,18 @@
 <template name="layout">
 	<div class="container">
-		{{> header}}
-		<div id="main" class="col-md-12">
+		<div id="topbar" class="row">
+			<h1> <a href="/"> <span class="circle1">M</span>atch the <span class="circle2">C</span>olor</a></h1>
+		</div>
+		<div id="main" class="row">
 			<div id = "target" class="col-md-4" style="background-color: {{randomColor}}">
 			</div>
-			<div class="col-md-4">
-				<h2> The box on the left is your target. Hover over the box on the right until it has the same color as the target. When ready, click and see how you did. </h2>
+			<div class="col-md-4 instructions">
+				<ul>
+					<h1> Instructions </h1>
+					<li> Box on the left is your <strong>target</strong>. </li>
+					<li> <strong>Hover or use the mousewheel</strong> over the box on the right until it has the <strong>same color as the target. </strong></li>
+					<li> You have <strong>3</strong> attempts for every target.</li>
+				</ul>
 			</div>
 			<div id ="player" class="col-md-4">
 			</div>

@@ -1,18 +1,115 @@
-#target{
-	width : 300px;
-	height: 300px;
+/* Initializations
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+@font-face {
+	font-family: 'League Spartan';
+	src: url('../fonts/leaguespartan-bold.ttf');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Didact Gothic';
+	src: url('../fonts/DidactGothic.ttf');
+	font-style: normal;
+}
+body {
+	font-family : 'Didact Gothic', sans-serif;
+	font-size: 1.6em;
+}
+h1,h2,h3,h4,a, button {
+	font-family: 'League Spartan', sans-serif;
 }
 
-#player{
-	width : 300px;
-	height: 300px;
+/* Topbar
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+#topbar {
+	text-align: center;
+	background-color: #EFEFEF;
+}
+.circle2 {
 	background-color: red;
+	border-radius: 50%;
+	padding: 7px 9px 0px 6px;
 }
-.alert {
-	display:none;
+.circle1 {
+	background-color: red;
+	border-radius: 50%;
+	padding: 6px 6px 0 8px;
 }
-
+/* Main
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+#target, #player{
+	width : 350px;
+	height: 350px;
+}
+#player {
+	float:right;
+}
+#main {
+	padding-top: 1em;
+}
+#main h1 {
+	text-align: center;
+}
+.instructions {
+	padding-left:2em;
+}
 .mouse {
 	height: 40px;
 	margin-left: 20px;
 }
+.tries {
+	padding-left: 3em;
+}
+.triesNum {
+	background: #899EB0;
+	color: white;
+	border-radius: 50%;
+	padding: 0.3em 0.2em 0.1em 0.2em;
+}
+.controls {
+	padding-left: 4em;
+}
+.btn-warning {
+	width: 100%;
+	margin-top: 20px;
+}
+ul {
+	list-style: circle;
+}
+/* Scoreboard
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.table, th, .scoreboard {
+	text-align: center;
+}
+.level-bar-outer {
+	background: #c5c5c5;
+}
+.level-bar-inner {
+	height: 15px;
+	width:0;
+	margin-top: 4px;
+}
+.redbar { background-color: #d40000; }
+.greenbar { background-color: #339900; }
+.bluebar { background-color: #1c6a9d; }
+
+/* Modal
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.alert {
+	display:none;
+}
+#nickname {
+	width:340px;
+}
+.btn-info {
+	float: right;
+	width: 200px;
+}
+/* Footer
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+/* Animations
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+
+

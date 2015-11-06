@@ -1,49 +1,54 @@
 <template name="scoreboard">
-	<div class="scoreboard col-md-4">
-		<h1> High Scores </h1>
-		<div class="score">
-			<div class="score-content">
-				<table class="table table-striped" style = "width:100%">
-					<tbody>
-						<tr class= "active" >
-							<th> #      </th>
-							<th> Name	</th>
-							<th> Score	</th>
-						</tr>
-						{{#each scores}}
-						{{> singlescore}}
-						{{/each}}
-					</tbody>
-				</table>
+	<div class="row">
+		<div class="scoreboard col-md-4">
+			<h1> Hall of Fame </h1>
+			<div class="score">
+				<div class="score-content">
+					<table class="table table-striped" style = "width:100%">
+						<tbody>
+							<tr class= "active" >
+								<th> #      </th>
+								<th> Name	</th>
+								<th> Score	</th>
+							</tr>
+							{{#each scores}}
+							{{> singlescore}}
+							{{/each}}
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="col-md-8">
-		<h1> Result </h1>
-		<table class="table table-condensed" style="width:100%">
-			<tbody>
-				<tr class="active">
-					<th> </th>
-					<th>Points</th>
-					<th> % </th> 
-				</tr>
-				<tr class="danger">
-					<td>The red component was off by : </td>
-					<td> {{ redOff}}  </td> 
-					<td> {{ redOffperc}}  </td>
-				</tr>
-				<tr class="success">
-					<td>The green component was off by : </td>
-					<td> {{ greenOff}} </td> 
-					<td> {{ greenOffperc}} </td>
-				</tr>
-				<tr class="info">
-					<td>The blue component was off by : </td>
-					<td> {{ blueOff}} </td> 
-					<td> {{ blueOffperc}} </td>
-				</tr>
-			</tbody>
-		</table>
-		<h3> Your final score is : <span id="scorePos"> {{ currentScore }}</span></h3>
+		<div class="col-md-8 bars">
+			<h1> Score: <span id="scorePos"> {{ currentScore }}</span></h1>
+			<table class="table table-condensed" style="width:100%">
+				<tbody>
+					<tr class="active">
+						<th width="260px"> </th>
+						<th>Points Off</th>
+						<th> Accuracy </th> 
+						<th width="300px"> </th>
+					</tr>
+					<tr class="danger">
+						<td>Red component was off by : </td>
+						<td> {{ redOff}}  </td> 
+						<td> {{ redOffperc}} %  </td>
+						<td> <div class="level-bar-outer" > <div class="level-bar-inner redbar">	</div> </div></td>
+					</tr>
+					<tr class="success">
+						<td>Green component was off by : </td>
+						<td> {{ greenOff}} </td> 
+						<td> {{ greenOffperc}} % </td>
+						<td> <div class="level-bar-outer" > <div class="level-bar-inner greenbar">	</div> </div></td>
+					</tr>
+					<tr class="info">
+						<td>Blue component was off by : </td>
+						<td> {{ blueOff}} </td> 
+						<td> {{ blueOffperc}} % </td>
+						<td> <div class="level-bar-outer" > <div class="level-bar-inner bluebar">	</div> </div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </template>

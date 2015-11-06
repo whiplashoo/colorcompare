@@ -3,6 +3,7 @@ Template.scoreboard.onCreated( function() {
 	Session.set('blueOff', 0);
 	Session.set('greenOff', 0);
 	Session.set('score',0);
+	Session.set('tempScore',0);
 	Session.set('autocount',0);
 });
 
@@ -40,7 +41,9 @@ Template.scoreboard.helpers({
 		return Session.get('blueOffperc');
 	},
 	currentScore: function() {
-		return Session.get('score');
+		if (Session.get('score') !== 0){
+			return Session.get('score');
+		}
 	}
 });
 
