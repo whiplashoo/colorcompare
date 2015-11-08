@@ -1,0 +1,4 @@
+- touch events
+- android app
+- timer ?
+- score calculation

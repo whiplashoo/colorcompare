@@ -1,26 +1,8 @@
 <template name="scoreboard">
 	<div class="row">
-		<div class="scoreboard col-md-4">
-			<h1> Hall of Fame </h1>
-			<div class="score">
-				<div class="score-content">
-					<table class="table table-striped" style = "width:100%">
-						<tbody>
-							<tr class= "active" >
-								<th> #      </th>
-								<th> Name	</th>
-								<th> Score	</th>
-							</tr>
-							{{#each scores}}
-							{{> singlescore}}
-							{{/each}}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+		
 		<div class="col-md-8 bars">
-			<h1> Score: <span id="scorePos"> {{ currentScore }}</span></h1>
+			<h1 class="heading"> Score: <span id="scorePos"> {{ currentScore }}</span></h1>
 			<table class="table table-condensed" style="width:100%">
 				<tbody>
 					<tr class="active">
@@ -49,6 +31,25 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+		<div class="halloffame col-md-4">
+			<h1 class="heading"> Hall of Fame </h1>
+			<div class="score">
+				<div class="score-content">
+					<table class="table table-striped" style = "width:100%">
+						<tbody>
+							<tr class= "active" >
+								<th> #      </th>
+								<th> Name	</th>
+								<th> Score	</th>
+							</tr>
+							{{#each scores}}
+							{{> singlescore}}
+							{{/each}}
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title" id="myModalLabel">Highscore! You are in the top 20 all-time scores! </h4>
+          <h4 class="modal-title animated bounceInDown" id="myModalLabel">Highscore! You are in the top 20 all-time scores! </h4>
         </div>
         <div class="modal-body">
           <p> Select a nickname to keep track of your highscore! </p>
@@ -12,12 +12,12 @@
           <div class="form-group">
             <input type="text" name="user" class="form-control" id="nickname" placeholder="Your cool nickname here..">
           </div>
-          <button type="submit" class="btn btn-info">Submit</button>          
+          <button type="submit" class="btn btn-custom">Submit</button>          
         </form>
         </div>
         <div class="modal-footer">
-          <h4> Score : {{ currentScore }} </h4>
-          <div class="alert alert-danger"> Certain characters including ($,#,.,{,}) are not permitted. Please try another nickname! </div>
+          <h4 class="animated flip"> Score : {{ currentScore }} </h4>
+          <div class="alert alert-danger">  </div>
         </div>
     </div>
   </div>

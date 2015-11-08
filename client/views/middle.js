@@ -4,6 +4,14 @@ Template.middle.helpers({
 	}
 });
 
+
+var clock = 0;
+var timer = function() {
+    clock++;
+    Session.set("time", clock);
+    return clock;
+};
+
 Template.middle.events ({
 	'click button':function(event){
 		var tempUser = Session.get('currentUser');
@@ -15,6 +23,9 @@ Template.middle.events ({
 		Session.set('blue', 150);
 		Session.set('clicks', 3);
 		Session.set('tempScore',0);
+		clock = 0;
+
+		interval = Meteor.setInterval(timer, 10);
 
 		$('.level-bar-inner').each(function(){
 			$(this).animate({ width : '0px' },800);

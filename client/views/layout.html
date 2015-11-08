@@ -1,20 +1,35 @@
 <template name="layout">
 	<div class="container">
 		<div id="topbar" class="row">
-			<h1> <a href="/"> <span class="circle1">M</span>atch the <span class="circle2">C</span>olor</a></h1>
+			<div class="col-md-4">
+				<div class="circle c1">
+				</div>
+			</div>
+			<div class="col-md-4">
+				<h1> <a href="/"> Match the Color</a></h1>
+			</div>
+			<div class="col-md-4">
+				<div class="circle c2">
+				</div>
+			</div>
 		</div>
 		<div id="main" class="row">
-			<div id = "target" class="col-md-4" style="background-color: {{randomColor}}">
+			<div id = "target" class="col-md-4" style="background-color: {{randomColor}}" oncontextmenu="return false;">
 			</div>
 			<div class="col-md-4 instructions">
 				<ul>
-					<h1> Instructions </h1>
+					<h1 class="heading"> Instructions </h1>
 					<li> Box on the left is your <strong>target</strong>. </li>
+					<li> <strong>When you hit 'BEGIN' the timer starts.</strong></li>
 					<li> <strong>Hover or use the mousewheel</strong> over the box on the right until it has the <strong>same color as the target. </strong></li>
-					<li> You have <strong>3</strong> attempts for every target.</li>
+					<li> <strong>The fastest and the most accurate you are, the highest your score.</strong> Maximum Score is around 400,000.</li>
+					<li> You have <strong>3</strong> attempts for every target color.</li>
 				</ul>
+				<div id="timer">
+					<h3> Time:  {{ clock }} </h3>
+				</div>
 			</div>
-			<div id ="player" class="col-md-4">
+			<div id ="player" class="col-md-4" oncontextmenu="return false;">
 			</div>
 			
 		</div>

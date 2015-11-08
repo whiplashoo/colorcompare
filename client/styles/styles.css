@@ -14,26 +14,36 @@
 body {
 	font-family : 'Didact Gothic', sans-serif;
 	font-size: 1.6em;
+	background-color: #232122;
 }
 h1,h2,h3,h4,a, button {
 	font-family: 'League Spartan', sans-serif;
 }
-
+.container {
+	background-color: #f9f9f9;
+}
+.heading {
+	color: #7ba4a8;
+}
 /* Topbar
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 #topbar {
 	text-align: center;
-	background-color: #EFEFEF;
+	background-color: #232122;
 }
-.circle2 {
-	background-color: red;
-	border-radius: 50%;
-	padding: 7px 9px 0px 6px;
+#topbar a {
+	color: #a5c05b;
 }
-.circle1 {
-	background-color: red;
+.circle {
+	background-color: #7ba4a8;
 	border-radius: 50%;
-	padding: 6px 6px 0 8px;
+	width: 30px;
+	height: 30px;
+	margin-top:20px;
+}
+.c1 {
+	float: right;
+	background-color: #a5c05b;
 }
 /* Main
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -43,9 +53,10 @@ h1,h2,h3,h4,a, button {
 }
 #player {
 	float:right;
+	display:none;
 }
 #main {
-	padding-top: 1em;
+	padding: 1em;
 }
 #main h1 {
 	text-align: center;
@@ -53,36 +64,62 @@ h1,h2,h3,h4,a, button {
 .instructions {
 	padding-left:2em;
 }
+ul {
+	list-style: circle;
+}
+#timer {
+	padding-top:1em;
+	text-align: center;
+}
+/* Middle
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+#middle{
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+}
 .mouse {
 	height: 40px;
 	margin-left: 20px;
 }
 .tries {
-	padding-left: 3em;
+	padding-left: 6em;
+	padding-top: 4px;
 }
 .triesNum {
-	background: #899EB0;
-	color: white;
+	background: #232122;
+	color: #f9f9f9;
 	border-radius: 50%;
 	padding: 0.3em 0.2em 0.1em 0.2em;
 }
 .controls {
 	padding-left: 4em;
 }
-.btn-warning {
-	width: 100%;
-	margin-top: 20px;
+.btn-custom {
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	background-color: #232122;
+	color: #a5c05b;
+	border-color: black;
 }
-ul {
-	list-style: circle;
+.btn-large {
+	margin-top: 15px;
+	font-size: 1.2em;
+	width: 100%;
+}
+.btn-custom:hover, .btn-custom:focus, .btn-custom.focus, .btn-custom:active, .btn-custom.active {
+	background-color: #7ba4a8;
+	border-color: #7ba4a8;
 }
 /* Scoreboard
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.table, th, .scoreboard {
+.table, th, .halloffame {
 	text-align: center;
 }
+.halloffame {
+	border-right: 1px solid #e5e5e5;
+}
 .level-bar-outer {
-	background: #c5c5c5;
+	background: #e5e5e5;
 }
 .level-bar-inner {
 	height: 15px;
@@ -99,17 +136,95 @@ ul {
 	display:none;
 }
 #nickname {
-	width:340px;
+	width:250px;
+}
+.modal-dialog, .modal-footer {
+	text-align: center;
 }
 .btn-info {
 	float: right;
 	width: 200px;
+}
+.modal-header .close {
+	margin-top: -10px;
+}
+.modal-content {
+	background-color: #f9f9f9;
 }
 /* Footer
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 /* Animations
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+.animated { 
+	-webkit-animation-duration: 1s; 
+	animation-duration: 1s; 
+	-webkit-animation-fill-mode: both; 
+	animation-fill-mode: both; 
+} 
+@keyframes flip { 
+	0% { 
+		transform: perspective(400px) rotateY(0); 
+		animation-timing-function: ease-out; 
+	} 
+	40% { 
+		transform: perspective(400px) translateZ(150px) rotateY(170deg); 
+		animation-timing-function: ease-out; 
+	} 
+	50% { 
+		transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(1); 
+		animation-timing-function: ease-in; 
+	} 
+	80% { 
+		transform: perspective(400px) rotateY(360deg) scale(.95); 
+		animation-timing-function: ease-in; 
+	} 
+	100% { 
+		transform: perspective(400px) scale(1); 
+		animation-timing-function: ease-in; 
+	} 
+} 
+.flip { 
+	-webkit-backface-visibility: visible !important; 
+	-webkit-animation-name: flip; 
+	backface-visibility: visible !important; 
+	animation-name: flip; 
+}
+@-webkit-keyframes bounceInDown { 
+	0% { 
+		opacity: 0; 
+		-webkit-transform: translateY(-2000px); 
+	} 
+	60% { 
+		opacity: 1; 
+		-webkit-transform: translateY(30px); 
+	} 
+	80% { 
+		-webkit-transform: translateY(-10px); 
+	} 
+	100% { 
+		-webkit-transform: translateY(0); 
+	} 
+} 
 
+@keyframes bounceInDown { 
+	0% { 
+		opacity: 0; 
+		transform: translateY(-2000px); 
+	} 
+	60% { 
+		opacity: 1; 
+		transform: translateY(30px); 
+	} 
+	80% { 
+		transform: translateY(-10px); 
+	} 
+	100% { 
+		transform: translateY(0); 
+	} 
+} 
 
-
+.bounceInDown { 
+	-webkit-animation-name: bounceInDown; 
+	animation-name: bounceInDown; 
+}
