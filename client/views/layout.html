@@ -33,8 +33,127 @@
 			</div>
 			
 		</div>
-		{{> middle}}
-		{{> modal}}
-		{{> yield}}
+		<div class="row" id="middle">
+			<div class="col-md-4 tries">
+				<h3> Attempts left: <span class="triesNum"> {{ tries }} </span></h3>
+			</div>
+			<div class="col-md-4 start-over">
+				<button class="btn btn-custom btn-large start-over-btn"> Begin!</button>
+			</div>	
+			<div class="col-md-4 controls">		
+				<div class="row">
+					<h3> Controls: 
+						<img class="mouse" src="img/mousered.png" alt="redmouse"/>
+						<img class="mouse" src="img/mousegreen.png" alt="greenmouse"/>
+						<img class="mouse" src="img/mouseblue.png" alt="bluemouse"/>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title animated bounceInDown" id="myModalLabel">Highscore! You are in the top 20 all-time scores! </h4>
+					</div>
+					<div class="modal-body">
+						<p> Select a nickname to keep track of your highscore! </p>
+						<form class="form-inline new-user">
+							<div class="form-group">
+								<input type="text" name="user" class="form-control" id="nickname" placeholder="Your cool nickname here..">
+							</div>
+							<button type="submit" class="btn btn-custom">Submit</button>          
+						</form>
+					</div>
+					<div class="modal-footer">
+						<table class="table table-condensed" style="width:100%">
+							<tbody>
+								<tr class="active">
+									<th width="260px"> </th>
+									<th>Points Off</th>
+									<th> Accuracy </th> 
+									<th width="300px"> </th>
+								</tr>
+								<tr class="danger">
+									<td>Red component was off by : </td>
+									<td> {{ redOff}}  </td> 
+									<td> {{ redOffperc}} %  </td>
+									<td> <div class="level-bar-outer" > <div class="level-bar-inner redbar" >	</div> </div></td>
+								</tr>
+								<tr class="success">
+									<td>Green component was off by : </td>
+									<td> {{ greenOff}} </td> 
+									<td> {{ greenOffperc}} % </td>
+									<td> <div class="level-bar-outer" > <div class="level-bar-inner greenbar">	</div> </div></td>
+								</tr>
+								<tr class="info">
+									<td>Blue component was off by : </td>
+									<td> {{ blueOff}} </td> 
+									<td> {{ blueOffperc}} % </td>
+									<td> <div class="level-bar-outer" > <div class="level-bar-inner bluebar">	</div> </div></td>
+								</tr>
+							</tbody>
+						</table>
+						<h4 class="animated flip"> Score : {{ currentScore }} </h4>
+						<div class="alert alert-danger">  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+
+			<div class="col-md-8 bars">
+				<h1 class="heading"> Score: <span id="scorePos"> {{ currentScore }}</span></h1>
+				<table class="table table-condensed" style="width:100%">
+					<tbody>
+						<tr class="active">
+							<th width="260px"> </th>
+							<th>Points Off</th>
+							<th> Accuracy </th> 
+							<th width="300px"> </th>
+						</tr>
+						<tr class="danger">
+							<td>Red component was off by : </td>
+							<td> {{ redOff}}  </td> 
+							<td> {{ redOffperc}} %  </td>
+							<td> <div class="level-bar-outer" > <div class="level-bar-inner redbar" >	</div> </div></td>
+						</tr>
+						<tr class="success">
+							<td>Green component was off by : </td>
+							<td> {{ greenOff}} </td> 
+							<td> {{ greenOffperc}} % </td>
+							<td> <div class="level-bar-outer" > <div class="level-bar-inner greenbar">	</div> </div></td>
+						</tr>
+						<tr class="info">
+							<td>Blue component was off by : </td>
+							<td> {{ blueOff}} </td> 
+							<td> {{ blueOffperc}} % </td>
+							<td> <div class="level-bar-outer" > <div class="level-bar-inner bluebar">	</div> </div></td>
+						</tr>
+					</tbody>
+				</table>
+				<p id="footer"> Powered by <a href="http://whidev.com" traget="_blank" >whiDev</a> 2015 &copy; </p>
+			</div>
+			<div class="halloffame col-md-4">
+				<h1 class="heading"> Hall of Fame </h1>
+				<div class="score">
+					<div class="score-content">
+						<table class="table table-striped" style = "width:100%">
+							<tbody>
+								<tr class= "active" >
+									<th> #      </th>
+									<th> Name	</th>
+									<th> Score	</th>
+								</tr>
+								{{#each scores}}
+								{{> singlescore}}
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>

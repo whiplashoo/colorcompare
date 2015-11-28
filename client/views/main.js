@@ -1,6 +1,14 @@
 Meteor.subscribe('scores');
 maxScore = 255*10*3;
 document.title = "Match the Color";
+var clock = 0;
+
+var timer = function() {
+  clock++;
+  Session.set("time", clock);
+  return clock;
+};
+
 
 function parseRGB(input){
   if (input === 'rgba(0, 0, 0, 0)') {
@@ -31,9 +39,23 @@ function calculateScore(score,time){
   // The timescale is used to make highest scores more dependent on the time they were made. Thus, highest score means more importance on the time in which it was made. Ranges from 0.3 to 1.3.
   var scoreMil = (score / 1000) ;
   var timeScale = 0.3 + Math.pow(scoreMil,2) / 59 ;
-  console.log(time,scoreMil,timeScale,score);
-  return Math.round(score * timeScale * time).toLocaleString();
+  return Math.round(score * timeScale * time);
 }
+
+function getPerc(colorOff){
+  if (Session.get('clicks') === 3){
+    return 0;
+  }
+  return 100 - Math.round(colorOff * 100 / 255)
+}
+
+Template.layout.created = function(){
+  this.redOff = new ReactiveVar(0);
+  this.blueOff = new ReactiveVar(0);
+  this.greenOff = new ReactiveVar(0);
+  this.tempScore = new ReactiveVar(0);
+  this.reactScore = new ReactiveVar(0);
+};
 
 Template.layout.helpers ({
   clock: function(){
@@ -43,8 +65,41 @@ Template.layout.helpers ({
     if (decimal < 10) { decimal = '0' + decimal; }
     var sec = (time/100) | 0;
     return sec + '.' + decimal;
+  },
+  scores: function() {
+    return Scores.find({}, {sort: {sc: -1} , limit:20});
+  },
+  tries: function() {
+    return Session.get('clicks');
+  },
+  count20: function(){
+    var arr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+    return arr;
+  },
+  redOff: function() {
+    return Template.instance().redOff.get();
+  },
+  greenOff: function() {
+    return Template.instance().greenOff.get();
+  },
+  blueOff: function() {
+    return Template.instance().blueOff.get();
+  },
+  redOffperc: function() {
+    return getPerc(Template.instance().redOff.get());
+  },
+  greenOffperc: function() {
+    return getPerc(Template.instance().greenOff.get());
+  },
+  blueOffperc: function() {
+    return getPerc(Template.instance().blueOff.get());
+  },
+  currentScore: function() {
+    return Template.instance().reactScore.get();
   }
 });
+
+
 
 Template.layout.rendered = function(){
   // Choose a random color for the target
@@ -91,7 +146,7 @@ Template.layout.events({
     updateColor();
   },
 
-  'click #player': function (event) {
+  'click #player': function (event,template) {
     // PLAYER
     var p = parseRGB(event.target.style.backgroundColor);
     var pR = p[0];
@@ -104,46 +159,85 @@ Template.layout.events({
     var tG = t[1];
     var tB = t[2];
 
-    Session.set('redOff',Math.abs(pR - tR));
-    Session.set('greenOff',Math.abs(pG - tG));
-    Session.set('blueOff',Math.abs(pB - tB));
+    template.redOff.set(Math.abs(pR - tR));
+    template.greenOff.set(Math.abs(pG - tG));
+    template.blueOff.set(Math.abs(pB-tB));
 
-    Session.set('redOffperc', 100 - Math.round(Math.abs(pR - tR) * 100 / 255));
-    Session.set('greenOffperc', 100 - Math.round(Math.abs(pG - tG) * 100 / 255));
-    Session.set('blueOffperc', 100 - Math.round(Math.abs(pB - tB) * 100 / 255));  
     Session.set('clicks', Session.get('clicks') - 1);
 
     var score = maxScore - 10 * (Math.abs(pR-tR) + Math.abs(pB-tB) + Math.abs(pG-tG)) ;
-    if (score > Session.get('tempScore')){
-      Session.set('tempScore',score);
+
+    if (score > Template.instance().tempScore.get()){
+      template.tempScore.set(score);
     }
     if (Session.get('clicks') === 0 ){
       var finalTime = Session.get('time');
       Meteor.clearInterval(interval);
-      console.log(finalTime);
-      Session.set('score',calculateScore(Session.get('tempScore'),finalTime/100));
+      template.reactScore.set(calculateScore(Template.instance().tempScore.get(),finalTime/100));
 
       $('#player').hide();
 
       // Enter HoF if we have less than 20 scores or the 20th best score is smaller than current score. 
-      if (Scores.find().count() < 20 || Scores.find({}, {sort: { sc: -1 }, limit : 1, skip : 18 }).fetch()[0].sc < Session.get('score')) {
+      if (Scores.find().count() < 20 || Scores.find({}, {sort: { sc: -1 }, limit : 1, skip : 18 }).fetch()[0].sc < Template.instance().reactScore.get()) {
         // Show the modal
         $("#myModal").modal();
-        $('.modal-footer').append($('.bars .table').html());
-        $('.modal-footer tbody').wrap('<table class="table table-condensed" style="width:100%"></table>');
-        // $('.animated').addClass('flip');
-        $('#myModal').on('hidden.bs.modal', function (e) {
-          // $('.animated').removeClass('flip');
-          $('.modal-footer .table').remove();
-        });
+        $('.redbar').animate({   width: getPerc(Template.instance().redOff.get()) + '%'  }, 800);
+        $('.greenbar').animate({ width: getPerc(Template.instance().greenOff.get()) + '%'  }, 800);
+        $('.bluebar').animate({  width: getPerc(Template.instance().blueOff.get()) + '%'  }, 800);
       }
-
-      $('.redbar').animate({   width: Session.get('redOffperc') + '%'  }, 800);
-      $('.greenbar').animate({ width: Session.get('greenOffperc') + '%'  }, 800);
-      $('.bluebar').animate({  width: Session.get('blueOffperc') + '%'  }, 800);
-
-      Session.set('clicks', 3);
     }
+},
+"submit .new-user": function (event) {
+    // Get the value from the input with name : user
+    var text = event.target.user.value;
+    var notPermitted = /([#${}])/ ;
+    if (text.match(notPermitted) !== null){
+      $('.alert').html('Certain characters including ($,#,.,{,}) are not permitted. Please try another nickname!');
+      $('.alert').show();
+      event.target.user.value = "";
+      return false;
+    }
+    if (text === ""){
+      $('.alert').html('Please provide a valid nickname.');
+      $('.alert').show();
+      return false;
+    }
+    
+    Session.set('currentUser',text);
+    
+    // Clear form
+    event.target.user.value = "";
+    $('#myModal').modal('hide');
+
+    Meteor.call('insertUser', text, Template.instance().reactScore.get());
+    // Prevent default form submit
+    return false;
+  },
+
+  'click .start-over-btn':function(event, template){
+    var tempUser = Session.get('currentUser');
+    Session.set('currentUser',tempUser);
+    template.reactScore.set(0);
+    template.tempScore.set(0);
+    template.redOff.set(0);
+    template.blueOff.set(0);
+    template.greenOff.set(0);
+    Session.set('red', 150);
+    Session.set('green', 150);
+    Session.set('blue', 150);
+    Session.set('clicks', 3);
+    clock = 0;
+
+    interval = Meteor.setInterval(timer, 10);
+
+    $('.level-bar-inner').each(function(){
+      $(this).animate({ width : '0px' },800);
+    });
+
+    $('#player').show();
+    Meteor.call('randomColor', function(error,data){
+      $('#target').css('background',data);
+    });
   }
 });
 
