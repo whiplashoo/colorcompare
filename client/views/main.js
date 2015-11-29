@@ -24,13 +24,6 @@ function parseHex(input){
  if (m) { return [ parseInt(m.substr(0,2),16), parseInt(m.substr(2,2),16), parseInt(m.substr(4,2),16) ];};
 }
 
-function updateColor() {
-  var rgb = [Session.get('red'),Session.get('green'),Session.get('blue')];
-  $('#player, .c1').css('background','rgb('+rgb.join(',')+')');
-  var rgbOpposite = [255 - Session.get('red'),255 - Session.get('green'), 255 - Session.get('blue')];
-  $('.c2').css('background','rgb('+rgbOpposite.join(',')+')');
-}
-
 function calculateScore(score,time){
   // If it took more than 40 sec, score will be 0.
   if (time > 40){ return 0;}
@@ -96,6 +89,21 @@ Template.layout.helpers ({
   },
   currentScore: function() {
     return Template.instance().reactScore.get();
+  },
+  red: function(){
+    return Session.get('red');
+  },
+  green: function(){
+    return Session.get('green');
+  },
+  blue: function(){
+    return Session.get('blue');
+  },
+  nickname: function(){
+    if (!Session.get('currentUser')) {
+      return;
+    }
+    return Session.get('currentUser');
   }
 });
 
@@ -105,7 +113,7 @@ Template.layout.rendered = function(){
   // Choose a random color for the target
   Meteor.call('randomColor', function(error,data){
      // if !error, data should be good
-     $('#target').css('background-color',data);
+     $('#target,.c2').css('background-color',data);
    });
   Session.set('red', 150);
   Session.set('green', 150);
@@ -122,28 +130,37 @@ Template.layout.rendered = function(){
     }
     if (blue < 0) {blue = 0};
     if (blue >= 255) {blue = 255};
+    blue = Math.round(blue);
     Session.set('blue',blue);
-
-    updateColor();
-
+    $('#blue').val(blue);
     event.preventDefault();
   });
 };
 
 Template.layout.events({
-  'mousemove #player': function (event) {
-    var rect = event.target.getBoundingClientRect();
-    var top = rect.top;
-    var left = rect.left;
+  'input input[type=range]': function(event){
+    // The id of each slider corresponds to the color it controls, for convenience.
+    var color = event.target.id;
+    Session.set(color,parseInt(event.target.value));
+  },
 
-    var X = event.pageX - left;
-    var Y = event.pageY - top;
+  'mousemove #player': function (event) {
+    if ($('#player').is(":hidden")){
+      $('#player').show();
+    }
+
+    var offset = $('#player').offset();
+    var X = event.pageX - offset.left;
+    var Y = event.pageY - offset.top;
+    if (X > 350) {X = 350};
+    if (Y < 0) { Y = 0};
     var red = Math.round(X/350 * 255);
     var green = Math.round(255 - Y/350 * 255);
+
+    $('#red').val(red);
+    $('#green').val(green);
     Session.set('red',red);
     Session.set('green',green);
-
-    updateColor();
   },
 
   'click #player': function (event,template) {
@@ -181,13 +198,15 @@ Template.layout.events({
       if (Scores.find().count() < 20 || Scores.find({}, {sort: { sc: -1 }, limit : 1, skip : 18 }).fetch()[0].sc < Template.instance().reactScore.get()) {
         // Show the modal
         $("#myModal").modal();
-        $('.redbar').animate({   width: getPerc(Template.instance().redOff.get()) + '%'  }, 800);
-        $('.greenbar').animate({ width: getPerc(Template.instance().greenOff.get()) + '%'  }, 800);
-        $('.bluebar').animate({  width: getPerc(Template.instance().blueOff.get()) + '%'  }, 800);
+        
+
       }
+      $('.redbar').animate({   width: getPerc(Template.instance().redOff.get()) + '%'  }, 800);
+      $('.greenbar').animate({ width: getPerc(Template.instance().greenOff.get()) + '%'  }, 800);
+      $('.bluebar').animate({  width: getPerc(Template.instance().blueOff.get()) + '%'  }, 800);
     }
-},
-"submit .new-user": function (event) {
+  },
+  "submit .new-user": function (event) {
     // Get the value from the input with name : user
     var text = event.target.user.value;
     var notPermitted = /([#${}])/ ;
@@ -203,11 +222,12 @@ Template.layout.events({
       return false;
     }
     
-    Session.set('currentUser',text);
     
     // Clear form
     event.target.user.value = "";
     $('#myModal').modal('hide');
+
+    Session.set('currentUser',text);
 
     Meteor.call('insertUser', text, Template.instance().reactScore.get());
     // Prevent default form submit
@@ -215,6 +235,8 @@ Template.layout.events({
   },
 
   'click .start-over-btn':function(event, template){
+    $('#player').show();
+
     var tempUser = Session.get('currentUser');
     Session.set('currentUser',tempUser);
     template.reactScore.set(0);
@@ -234,9 +256,8 @@ Template.layout.events({
       $(this).animate({ width : '0px' },800);
     });
 
-    $('#player').show();
     Meteor.call('randomColor', function(error,data){
-      $('#target').css('background',data);
+      $('#target, .c2').css('background',data);
     });
   }
 });

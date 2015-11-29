@@ -2,14 +2,14 @@
 	<div class="container">
 		<div id="topbar" class="row">
 			<div class="col-md-4">
-				<div class="circle c1">
+				<div class="circle c1" style="background-color:rgb({{red}},{{green}},{{blue}})">
 				</div>
 			</div>
 			<div class="col-md-4">
 				<h1> <a href="/"> Match the Color</a></h1>
 			</div>
 			<div class="col-md-4">
-				<div class="circle c2">
+				<div class="circle c2" >
 				</div>
 			</div>
 		</div>
@@ -21,7 +21,7 @@
 					<h1 class="heading"> Instructions </h1>
 					<li> Box on the left is your <strong>target</strong>. </li>
 					<li> <strong>When you hit 'BEGIN' the timer starts.</strong></li>
-					<li> <strong>Hover or use the mousewheel</strong> over the box on the right until it has the <strong>same color as the target. </strong></li>
+					<li> <strong>Use the sliders or hover/use the mousewheel</strong> over the box on the right until it has the <strong>same color as the target. </strong></li>
 					<li> <strong>The fastest and the most accurate you are, the highest your score.</strong> Maximum Score is around 400,000.</li>
 					<li> You have <strong>3</strong> attempts for every target color.</li>
 				</ul>
@@ -29,24 +29,43 @@
 					<h3> Time:  {{ clock }} </h3>
 				</div>
 			</div>
-			<div id ="player" class="col-md-4" oncontextmenu="return false;">
+			<div id ="player" class="col-md-4" oncontextmenu="return false;" style="background-color:rgb({{red}},{{green}},{{blue}})">
 			</div>
 			
 		</div>
 		<div class="row" id="middle">
 			<div class="col-md-4 tries">
 				<h3> Attempts left: <span class="triesNum"> {{ tries }} </span></h3>
+				<h1 class="heading"> Score: <span id="scorePos"> {{ currentScore }}</span></h1>
 			</div>
 			<div class="col-md-4 start-over">
 				<button class="btn btn-custom btn-large start-over-btn"> Begin!</button>
 			</div>	
-			<div class="col-md-4 controls">		
+			<div class="col-md-4 controls">	
+				<h3> Controls:</h3>	
 				<div class="row">
-					<h3> Controls: 
+					<div class="col-md-2">
 						<img class="mouse" src="img/mousered.png" alt="redmouse"/>
-						<img class="mouse" src="img/mousegreen.png" alt="greenmouse"/>
-						<img class="mouse" src="img/mouseblue.png" alt="bluemouse"/>
-					</h3>
+					</div>
+					<div class="col-md-10 sliderDiv">
+						<input id="red" type="range" min="0" max="250" step="1"  />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2">
+						<img class="mouse" src="img/mousegreen.png" alt="redmouse"/>
+					</div>
+					<div class="col-md-10 sliderDiv">
+						<input id="green" type="range" min="0" max="250" step="1"  />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2">
+						<img class="mouse" src="img/mouseblue.png" alt="redmouse"/>
+					</div>
+					<div class="col-md-10 sliderDiv">
+						<input id="blue" type="range" min="0" max="250" step="1"  />
+					</div>
 				</div>
 			</div>
 		</div>
@@ -61,7 +80,7 @@
 						<p> Select a nickname to keep track of your highscore! </p>
 						<form class="form-inline new-user">
 							<div class="form-group">
-								<input type="text" name="user" class="form-control" id="nickname" placeholder="Your cool nickname here..">
+								<input type="text" name="user" class="form-control" id="nickname" placeholder="Your cool nickname here.." value="{{nickname}}">
 							</div>
 							<button type="submit" class="btn btn-custom">Submit</button>          
 						</form>
@@ -102,9 +121,8 @@
 			</div>
 		</div>
 		<div class="row">
-
 			<div class="col-md-8 bars">
-				<h1 class="heading"> Score: <span id="scorePos"> {{ currentScore }}</span></h1>
+				<h1 class="heading"> Analysis:</h1>
 				<table class="table table-condensed" style="width:100%">
 					<tbody>
 						<tr class="active">
